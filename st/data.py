@@ -1,11 +1,13 @@
 import pandas as pd
+import os
 import sqlite3
 
 from pandas.core.reshape.reshape import stack
 
+dev_dir = os.environ['DEV_DIR']
 
 def get_reviews(game_name) -> pd.DataFrame:
-    con = sqlite3.connect(database='C:\\Users\\Lenovo IdeaPad JQ\\Dev\\steam-sentiment\\data\\steam-data\\steam.db')
+    con = sqlite3.connect(database=f'{dev_dir}\\steam-sentiment\\data\\steam-data\\steam.db')
     title = get_searched_title(game_name)
     query = """
             SELECT review_text, review_score from steam
@@ -20,7 +22,7 @@ def get_searched_title(game_name) -> str:
     """
     Returns the full name of searched game
     """
-    con = sqlite3.connect(database='C:\\Users\\Lenovo IdeaPad JQ\\Dev\\steam-sentiment\\data\\steam-data\\steam.db')
+    con = sqlite3.connect(database=f'{dev_dir}\\steam-sentiment\\data\\steam-data\\steam.db')
     query = """
             SELECT * from steam
             WHERE app_name LIKE '%{game_name}%'
@@ -56,4 +58,4 @@ def generate_charts(analysis) -> dict:
 
 
 def get_data() -> pd.DataFrame:
-    return pd.read_pickle('C:\\Users\\Lenovo IdeaPad JQ\\Dev\\steam-sentiment\\data\\steam-data\\steam.pkl')
+    return pd.read_pickle(f'{dev_dir}\\steam-sentiment\\data\\steam-data\\steam.pkl')
